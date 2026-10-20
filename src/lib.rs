@@ -1,4 +1,6 @@
 use chrono::{NaiveDate, NaiveTime};
+use std::error::Error;
+use strum_macros::Display;
 
 // Code adapted from
 // https://github.com/Direction-des-inventaires-forestiers/StereoPhoto/blob/13fe0616e998ae6215703e07612f0fcf0353ba95/src/worldManager.py
@@ -79,7 +81,7 @@ pub struct Coord {
     pub z: f64,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Display)]
 pub enum PARError {
     DateTimeParsing(String),
     InvalidLine(String),
@@ -98,6 +100,8 @@ impl From<chrono::ParseError> for PARError {
         Self::DateTimeParsing(e.to_string())
     }
 }
+
+impl Error for PARError {}
 
 impl TryFrom<&str> for PAR {
     type Error = PARError;

@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 chrono = "0.4"
+strum_macros = "0.28"
 tracing = "0.1"
 
 
