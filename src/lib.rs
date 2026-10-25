@@ -148,7 +148,7 @@ impl TryFrom<&str> for PAR {
                     }
                     "$TYPE" => par.global.ext_type = value.to_string(),
                     _ => {
-                        tracing::warn!("Unknown key \"{key}\" in .GLOBAL");
+                        tracing::debug!("Unknown key \"{key}\" in .GLOBAL");
                     }
                 },
                 ".INTERIOR" => match key {
@@ -175,7 +175,7 @@ impl TryFrom<&str> for PAR {
                             value.parse().map_err(|_| PARError::InvalidFocalLength)?;
                     }
                     _ => {
-                        tracing::warn!("Unknown key \"{key}\" in .INTERIOR");
+                        tracing::debug!("Unknown key \"{key}\" in .INTERIOR");
                     }
                 },
                 ".CAMCOR00" => {
@@ -202,7 +202,7 @@ impl TryFrom<&str> for PAR {
                                 value.parse().map_err(|_| PARError::InvalidLine(line.to_string()))?;
                         }
                         _ => {
-                            tracing::warn!("Unknown key \"{key}\" in .CAMCOR00");
+                            tracing::debug!("Unknown key \"{key}\" in .CAMCOR00");
                         }
                     }
                 }
@@ -227,11 +227,11 @@ impl TryFrom<&str> for PAR {
                             OPK { omega: values[0], phi: values[1], kappa: values[2] };
                     }
                     _ => {
-                        tracing::warn!("Unknown key \"{key}\" in .EXTERIOR");
+                        tracing::debug!("Unknown key \"{key}\" in .EXTERIOR");
                     }
                 },
                 _ => {
-                    tracing::warn!("Unknown section: {}", current_section);
+                    tracing::debug!("Unknown section: {}", current_section);
                 }
             }
         }
