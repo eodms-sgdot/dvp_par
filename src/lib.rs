@@ -21,8 +21,8 @@ pub struct Global {
     pub time: NaiveTime,
     pub scale: f64,
     pub file: String,
-    pub image_width: u32,
-    pub image_height: u32,
+    pub image_width: Option<u32>,
+    pub image_height: Option<u32>,
     pub ext_type: String,
 }
 
@@ -139,10 +139,12 @@ impl TryFrom<&str> for PAR {
                         par.global.file = basename.to_string();
                     }
                     "$FWIDTH00" => {
-                        par.global.image_width = value.parse().map_err(|_| PARError::InvalidImageWidth)?;
+                        par.global.image_width =
+                            Some(value.parse().map_err(|_| PARError::InvalidImageWidth)?);
                     }
                     "$FHEIGHT00" => {
-                        par.global.image_height = value.parse().map_err(|_| PARError::InvalidImageHeight)?;
+                        par.global.image_height =
+                            Some(value.parse().map_err(|_| PARError::InvalidImageHeight)?);
                     }
                     "$TYPE" => par.global.ext_type = value.to_string(),
                     _ => {
@@ -289,13 +291,25 @@ impl PAR {
 }
 
 fn parse_date(date_str: &str) -> Result<NaiveDate, PARError> {
-    let formats = ["%Y-%b-%d", "%d-%m-%Y"];
+    let formats = ["%Y-%b-%d", "%d-%m-%Y", "%d-%b-%Y", "%Y-%m-%d"];
     for format in &formats {
         if let Ok(date) = NaiveDate::parse_from_str(date_str, format) {
             return Ok(date);
         }
     }
     Err(PARError::DateTimeParsing(format!("Invalid date format: {date_str}")))
+}
+
+impl From<OPK> for [f64; 3] {
+    fn from(opk: OPK) -> Self {
+        [opk.omega, opk.phi, opk.kappa]
+    }
+}
+
+impl From<XYZ> for [f64; 3] {
+    fn from(xyz: XYZ) -> Self {
+        [xyz.x, xyz.y, xyz.z]
+    }
 }
 
 #[cfg(test)]
