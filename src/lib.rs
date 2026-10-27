@@ -452,8 +452,8 @@ $TIME  14:49:48
         assert_eq!(par.global.date, NaiveDate::from_ymd_opt(2025, 10, 23).unwrap());
         assert_eq!(par.global.time, NaiveTime::from_hms_opt(15, 43, 16).unwrap());
         assert_eq!(par.global.file, "Eastmain_202504033_IMG_15cm_105.tif");
-        assert_eq!(par.global.image_width, 17310);
-        assert_eq!(par.global.image_height, 11310);
+        assert_eq!(par.global.image_width, Some(17310));
+        assert_eq!(par.global.image_height, Some(11310));
         assert_eq!(par.global.ext_type, "OPK");
         assert_eq!(par.interior_orientation.date, NaiveDate::from_ymd_opt(2025, 10, 23).unwrap());
         assert_eq!(par.interior_orientation.time, NaiveTime::from_hms_opt(15, 43, 16).unwrap());
